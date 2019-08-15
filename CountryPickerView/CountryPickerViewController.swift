@@ -29,10 +29,6 @@ public class CountryPickerViewController: UITableViewController {
         }
     }
     
-    class string: String, Codable {
-        
-    }
-    
     fileprivate var dataSource: CountryPickerViewDataSourceInternal!
     
     override public func viewDidLoad() {
