@@ -29,6 +29,10 @@ public class CountryPickerViewController: UITableViewController {
         }
     }
     
+    class string: String, Codable {
+        
+    }
+    
     fileprivate var dataSource: CountryPickerViewDataSourceInternal!
     
     override public func viewDidLoad() {
@@ -70,6 +74,10 @@ extension CountryPickerViewController {
         
         tableView.sectionIndexBackgroundColor = .clear
         tableView.sectionIndexTrackingBackgroundColor = .clear
+        
+        if let selectedCountry = self.dataSource.selectedCountry(in: self.countryPickerView) {
+            self.countryPickerView.selectedCountry = selectedCountry
+        }
     }
     
     func prepareNavItem() {
@@ -278,7 +286,6 @@ class CountryTableViewCell: UITableViewCell {
 // MARK:- An internal implementation of the CountryPickerViewDataSource.
 // Returns default options where necessary if the data source is not set.
 class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
-    
     private unowned var view: CountryPickerView
     
     init(view: CountryPickerView) {
@@ -287,6 +294,10 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var preferredCountries: [Country] {
         return view.dataSource?.preferredCountries(in: view) ?? preferredCountries(in: view)
+    }
+    
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
+        return view.dataSource?.selectedCountry(in: view)
     }
     
     var preferredCountriesSectionTitle: String? {

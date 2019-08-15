@@ -29,6 +29,10 @@ public protocol CountryPickerViewDataSource: class {
     /// - requires: The title for the section to be returned in `sectionTitleForPreferredCountries`
     func preferredCountries(in countryPickerView: CountryPickerView) -> [Country]
     
+    /// Country list provided in order to select country by default when CountryPickerView initiated.
+    /// This is useful if your app is allow user to modify their countr.
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country?
+    
     /// The desired title for the preferred section.
     /// - **See:** `preferredCountries` method. Both are required for the section to be shown.
     func sectionTitleForPreferredCountries(in countryPickerView: CountryPickerView) -> String?
