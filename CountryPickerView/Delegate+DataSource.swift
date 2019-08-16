@@ -70,6 +70,9 @@ public protocol CountryPickerViewDataSource: class {
     /// The desired position for the search bar.
     func searchBarPosition(in countryPickerView: CountryPickerView) -> SearchBarPosition
     
+    /// Default: true
+    func searchBarAutohide(in countryPickerView: CountryPickerView) -> Bool
+    
     /// Determines if a country's phone code is shown alongside the country's name on the list.
     /// e.g Nigeria (+234)
     func showPhoneCodeInList(in countryPickerView: CountryPickerView) -> Bool
@@ -80,6 +83,8 @@ public protocol CountryPickerViewDataSource: class {
     
     /// Determines if the selected country is checked on the list.
     func showCheckmarkInList(in countryPickerView: CountryPickerView) -> Bool
+    
+    func preferredStatusBarStyle(in countryPickerView: CountryPickerView) -> UIStatusBarStyle
 }
 
 // MARK:- CountryPickerViewDataSource default implementations
@@ -133,6 +138,10 @@ public extension CountryPickerViewDataSource {
         return .tableViewHeader
     }
     
+    func searchBarAutohide(in countryPickerView: CountryPickerView) -> Bool {
+        return true
+    }
+    
     func showPhoneCodeInList(in countryPickerView: CountryPickerView) -> Bool {
         return false
     }
@@ -143,6 +152,14 @@ public extension CountryPickerViewDataSource {
     
     func showCheckmarkInList(in countryPickerView: CountryPickerView) -> Bool {
         return true
+    }
+    
+    func preferredStatusBarStyle(in countryPickerView: CountryPickerView) -> UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
     }
 }
 

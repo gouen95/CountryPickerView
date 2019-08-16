@@ -44,6 +44,10 @@ public class CountryPickerViewController: UITableViewController {
 // UI Setup
 extension CountryPickerViewController {
     
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.dataSource.preferredStatusBarStyle(in: self.countryPickerView)
+    }
+    
     func prepareTableItems()  {
         if !showOnlyPreferredSection {
             let countriesArray = countryPickerView.countries
@@ -282,6 +286,10 @@ class CountryTableViewCell: UITableViewCell {
 // MARK:- An internal implementation of the CountryPickerViewDataSource.
 // Returns default options where necessary if the data source is not set.
 class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
+    func searchBarAutohide(in countryPickerView: CountryPickerView) -> Bool {
+        return view.dataSource?.searchBarAutohide(in: view) ?? searchBarAutohide(in: view)
+    }
+    
     private unowned var view: CountryPickerView
     
     init(view: CountryPickerView) {
@@ -353,5 +361,9 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var showCheckmarkInList: Bool {
         return view.dataSource?.showCheckmarkInList(in: view) ?? showCheckmarkInList(in: view)
+    }
+    
+    func preferredStatusBarStyle(in countryPickerView: CountryPickerView) -> UIStatusBarStyle {
+        return view.dataSource?.preferredStatusBarStyle(in: view) ?? preferredStatusBarStyle(in: view)
     }
 }
