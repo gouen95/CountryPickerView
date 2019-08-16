@@ -108,6 +108,10 @@ extension DemoViewController: CountryPickerViewDelegate {
 }
 
 extension DemoViewController: CountryPickerViewDataSource {
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
+        return nil
+    }
+    
     func preferredCountries(in countryPickerView: CountryPickerView) -> [Country] {
         if countryPickerView.tag == cpvMain.tag && showPreferredCountries.isOn {
             var countries = [Country]()
