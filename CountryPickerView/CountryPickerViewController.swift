@@ -183,6 +183,14 @@ extension CountryPickerViewController {
     }
 }
 
+extension CountryPickerViewController: UITableViewDataSourcePrefetching {
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            countries[sectionsTitles[indexPath.section]]![indexPath.row].prepareFlag()
+        }
+    }
+}
+
 //MARK:- UITableViewDelegate
 extension CountryPickerViewController {
 
@@ -286,10 +294,6 @@ class CountryTableViewCell: UITableViewCell {
 // MARK:- An internal implementation of the CountryPickerViewDataSource.
 // Returns default options where necessary if the data source is not set.
 class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
-    func searchBarAutohide(in countryPickerView: CountryPickerView) -> Bool {
-        return view.dataSource?.searchBarAutohide(in: view) ?? searchBarAutohide(in: view)
-    }
-    
     private unowned var view: CountryPickerView
     
     init(view: CountryPickerView) {
@@ -349,6 +353,10 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var searchBarPosition: SearchBarPosition {
         return view.dataSource?.searchBarPosition(in: view) ?? searchBarPosition(in: view)
+    }
+    
+    func searchBarAutohide(in countryPickerView: CountryPickerView) -> Bool {
+        return view.dataSource?.searchBarAutohide(in: view) ?? searchBarAutohide(in: view)
     }
     
     var showPhoneCodeInList: Bool {

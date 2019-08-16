@@ -14,7 +14,7 @@ public enum SearchBarPosition {
     case tableViewHeader, navigationBar, hidden
 }
 
-public struct Country {
+public class Country {
     public var name: String
     public var code: String
     public var phoneCode: String
@@ -22,8 +22,29 @@ public struct Country {
         return Locale.current.localizedString(forRegionCode: code)
     }
     public var flag: UIImage {
-        return UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
+        if self.flagCache == nil {
+            let retrievedImage = UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
             in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
+            self.flagCache = retrievedImage
+            return retrievedImage
+        } else {
+            return self.flagCache!
+        }
+    }
+    func prepareFlag() {
+        if self.flagCache == nil {
+            let retrievedImage = UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
+            in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
+            self.flagCache = retrievedImage
+        }
+    }
+    
+    fileprivate var flagCache: UIImage?
+    
+    init(name: String, code: String, phoneCode: String) {
+        self.name = name
+        self.code = code
+        self.phoneCode = phoneCode
     }
 }
 
