@@ -34,6 +34,10 @@ public class CountryPickerViewController: UITableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 10.0, *) {
+            self.tableView.prefetchDataSource = self
+        }
+        
         prepareTableItems()
         prepareNavItem()
         prepareSearchBar()
@@ -183,10 +187,26 @@ extension CountryPickerViewController {
     }
 }
 
+extension Array {
+    func indexExists(_ index: Int) -> Bool {
+        return self.indices.contains(index)
+    }
+}
+
 extension CountryPickerViewController: UITableViewDataSourcePrefetching {
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            countries[sectionsTitles[indexPath.section]]![indexPath.row].prepareFlag()
+        DispatchQueue.global(qos: .userInitiated).async {
+            var mutableIndexPaths = indexPaths
+            
+            var index = 1
+            repeat {
+                mutableIndexPaths.append(IndexPath(row: indexPaths.last!.row + index, section: indexPaths.last!.section))
+                index += 1
+            } while index <= 15
+            
+            for indexPath in mutableIndexPaths {
+                if self.countries[self.sectionsTitles[indexPath.section]]!.indexExists(indexPath.row) { self.countries[self.sectionsTitles[indexPath.section]]![indexPath.row].prepareFlagIfNeeded() }
+            }
         }
     }
 }
@@ -290,6 +310,11 @@ class CountryTableViewCell: UITableViewCell {
     }
 }
 
+class CountryPickerViewDataSourceDefaultTempFix: CountryPickerViewDataSource {
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
+        return nil
+    }
+}
 
 // MARK:- An internal implementation of the CountryPickerViewDataSource.
 // Returns default options where necessary if the data source is not set.
@@ -302,10 +327,6 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var preferredCountries: [Country] {
         return view.dataSource?.preferredCountries(in: view) ?? preferredCountries(in: view)
-    }
-    
-    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
-        return view.dataSource?.selectedCountry(in: view)
     }
     
     var preferredCountriesSectionTitle: String? {
@@ -373,5 +394,9 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     func preferredStatusBarStyle(in countryPickerView: CountryPickerView) -> UIStatusBarStyle {
         return view.dataSource?.preferredStatusBarStyle(in: view) ?? preferredStatusBarStyle(in: view)
+    }
+    
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
+        return view.dataSource?.selectedCountry(in: view) ?? CountryPickerViewDataSourceDefaultTempFix().selectedCountry(in: view)
     }
 }

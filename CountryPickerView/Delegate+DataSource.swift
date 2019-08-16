@@ -90,6 +90,10 @@ public protocol CountryPickerViewDataSource: class {
 // MARK:- CountryPickerViewDataSource default implementations
 public extension CountryPickerViewDataSource {
     
+    func selectedCountry(in countryPickerView: CountryPickerView) -> Country? {
+        return nil
+    }
+    
     func preferredCountries(in countryPickerView: CountryPickerView) -> [Country] {
         return []
     }

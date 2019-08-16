@@ -31,11 +31,13 @@ public class Country {
             return self.flagCache!
         }
     }
-    func prepareFlag() {
+    func prepareFlagIfNeeded() {
         if self.flagCache == nil {
-            let retrievedImage = UIImage(named: "CountryPickerView.bundle/Images/\(code.uppercased())",
-            in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
-            self.flagCache = retrievedImage
+            DispatchQueue.global(qos: .userInitiated).async {
+                let retrievedImage = UIImage(named: "CountryPickerView.bundle/Images/\(self.code.uppercased())",
+                in: Bundle(for: CountryPickerView.self), compatibleWith: nil)!
+                self.flagCache = retrievedImage
+            }
         }
     }
     
