@@ -110,9 +110,7 @@ extension CountryPickerViewController {
         searchController?.delegate = self
         
         //Fix SearchBar weird backgroundColor behavior
-        let bgView = UIView()
-        bgView.backgroundColor = .clear
-        self.tableView.backgroundView = bgView
+        
         
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
@@ -198,10 +196,10 @@ extension CountryPickerViewController: UITableViewDataSourcePrefetching {
             var mutableIndexPaths = indexPaths
             
             var index = 1
-            while index < max(0,(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row - 2)) {
+            while index < max(0,(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row)) {
                 mutableIndexPaths.append(IndexPath(row: indexPaths.last!.row + index, section: indexPaths.last!.section))
                 index += 1
-            }  //- 2 cuz index = 1 and count must - 1
+            }
             
             for indexPath in indexPaths {
                 self.countries[self.sectionsTitles[indexPath.section]]![indexPath.row].prepareFlagIfNeeded() 
