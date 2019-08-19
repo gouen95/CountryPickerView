@@ -76,6 +76,9 @@ extension CountryPickerViewController {
             countries[preferredTitle] = dataSource.preferredCountries
         }
         
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = .systemBackground
+        }
         tableView.sectionIndexBackgroundColor = .clear
         tableView.sectionIndexTrackingBackgroundColor = .clear
         
@@ -187,12 +190,6 @@ extension CountryPickerViewController {
     }
 }
 
-extension Array {
-    func indexExists(_ index: Int) -> Bool {
-        return self.indices.contains(index)
-    }
-}
-
 extension CountryPickerViewController: UITableViewDataSourcePrefetching {
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -205,7 +202,7 @@ extension CountryPickerViewController: UITableViewDataSourcePrefetching {
             } while index <= self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count
             
             for indexPath in mutableIndexPaths {
-                if self.countries[self.sectionsTitles[indexPath.section]]!.indexExists(indexPath.row) { self.countries[self.sectionsTitles[indexPath.section]]![indexPath.row].prepareFlagIfNeeded() }
+                self.countries[self.sectionsTitles[indexPath.section]]![indexPath.row].prepareFlagIfNeeded() 
             }
         }
     }
