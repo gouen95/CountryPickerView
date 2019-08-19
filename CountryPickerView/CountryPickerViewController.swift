@@ -76,7 +76,6 @@ extension CountryPickerViewController {
             countries[preferredTitle] = dataSource.preferredCountries
         }
         
-        tableView.tableHeaderView?.inputView?.backgroundColor = .clear
         tableView.backgroundView = nil
         tableView.backgroundColor = .clear
         tableView.sectionIndexBackgroundColor = .clear
@@ -111,6 +110,8 @@ extension CountryPickerViewController {
         searchController?.definesPresentationContext = true
         searchController?.searchBar.delegate = self
         searchController?.delegate = self
+        searchController?.view.backgroundColor = .clear
+        searchController?.searchBar.backgroundColor = .clear
 
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
