@@ -76,7 +76,6 @@ extension CountryPickerViewController {
             countries[preferredTitle] = dataSource.preferredCountries
         }
         
-        tableView.isOpaque = true
         tableView.sectionIndexBackgroundColor = .clear
         tableView.sectionIndexTrackingBackgroundColor = .clear
         
@@ -110,6 +109,8 @@ extension CountryPickerViewController {
         searchController?.searchBar.delegate = self
         searchController?.delegate = self
 
+        tableView.tableHeaderView?.backgroundColor = .clear
+        
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
         case .navigationBar: navigationItem.titleView = searchController?.searchBar
@@ -208,7 +209,6 @@ extension CountryPickerViewController: UITableViewDataSourcePrefetching {
 
 //MARK:- UITableViewDelegate
 extension CountryPickerViewController {
-
     override public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.font = dataSource.sectionTitleLabelFont
