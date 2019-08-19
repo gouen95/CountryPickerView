@@ -126,6 +126,10 @@ public class CountryPickerView: NibView {
     }
     
     func setup() {
+        if #available(iOS 13.0, *) {
+            self.backgroundColor = .systemBackground
+        }
+        
         flagImageView.image = selectedCountry.flag
         countryDetailsLabel.font = font
         countryDetailsLabel.textColor = textColor

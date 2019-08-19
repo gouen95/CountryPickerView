@@ -199,7 +199,7 @@ extension CountryPickerViewController: UITableViewDataSourcePrefetching {
             repeat {
                 mutableIndexPaths.append(IndexPath(row: indexPaths.last!.row + index, section: indexPaths.last!.section))
                 index += 1
-            } while index < (self.countries[(self.sectionsTitles[indexPaths.last!.section]]!.count - 1) - indexPaths.last!.row - 1) //Count - 1 to adjust index, another -1 cuz of index = 1
+            } while index < (self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row - 2) //- 2 cuz index = 1 and count must - 1
             
             for indexPath in mutableIndexPaths {
                 self.countries[self.sectionsTitles[indexPath.section]]![indexPath.row].prepareFlagIfNeeded() 
