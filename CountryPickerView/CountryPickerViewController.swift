@@ -83,6 +83,7 @@ extension CountryPickerViewController {
             self.view.backgroundColor = .clear
             tableView.backgroundColor = .clear
         }
+        navigationController?.view.backgroundColor = .clear
         tableView.isOpaque = false
         tableView.backgroundView = nil
         tableView.sectionIndexBackgroundColor = .clear
@@ -203,7 +204,7 @@ extension CountryPickerViewController: UITableViewDataSourcePrefetching {
             
             var index = 1
             repeat {
-                print("\(index) vs \(max(0,(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row - 2))), total count : \(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count)")
+                print("\(index) vs \(max(0,(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row - 2))), total count : \(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count), appending index: \(indexPaths.last!.row + index)")
                 mutableIndexPaths.append(IndexPath(row: indexPaths.last!.row + index, section: indexPaths.last!.section))
                 index += 1
             } while index < max(0,(self.countries[self.sectionsTitles[indexPaths.last!.section]]!.count - indexPaths.last!.row - 2)) //- 2 cuz index = 1 and count must - 1
