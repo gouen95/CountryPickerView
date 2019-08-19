@@ -108,8 +108,11 @@ extension CountryPickerViewController {
         searchController?.definesPresentationContext = true
         searchController?.searchBar.delegate = self
         searchController?.delegate = self
-
-        tableView.tableHeaderView?.backgroundColor = .clear
+        
+        //Fix SearchBar weird backgroundColor behavior
+        let bgView = UIView()
+        bgView.backgroundColor = .clear
+        self.tableView.backgroundView = bgView
         
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
